@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.5.3",
     "firebase": "^10.13.0",
     "nuxt": "^3.12.4",
     "vue": "latest"
