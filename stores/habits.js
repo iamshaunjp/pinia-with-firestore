@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore'
-import { format } from 'date-fns'
+import { format, differenceInDays } from 'date-fns'
 
 export const useHabitStore = defineStore('habitStore', {
   state: () => ({
@@ -69,12 +69,30 @@ export const useHabitStore = defineStore('habitStore', {
         habit.completions.push(today)
       }
 
+      habit.streak = this.calculateStreak(habit.completions)
+
       this.updateHabit(habit.id, {
         completions: habit.completions,
+        streak: habit.streak
       })
     },
 
     // calculate habit streak
+    calculateStreak(completions) {
+      const sortedDates = completions.sort((a, b) => new Date(b) - new Date(a))
+      let streak = 0
+      let today = new Date()
 
+      for (const date of sortedDates) {
+        const diff = differenceInDays(today, new Date(date))
+
+        if (diff > 1) {
+          break
+        }
+        streak += 1
+      }
+      
+      return streak
+    },
   }
 })
