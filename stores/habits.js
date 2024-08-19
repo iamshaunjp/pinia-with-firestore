@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { collection, addDoc } from 'firebase/firestore'
 
 export const useHabitStore = defineStore('habitStore', {
   state: () => ({
@@ -9,7 +10,21 @@ export const useHabitStore = defineStore('habitStore', {
     
 
     // adding new habits
-    
+    async addHabit(name) {
+      const { $db } = useNuxtApp()
+
+      const habit = {
+        name,
+        completions: [],
+        streak: 0,
+      }
+
+      // add habit in firebase
+      const docRef = await addDoc(collection($db, 'habits'), habit)
+
+      // add habit to pinia store 
+      this.habits.push({ id: docRef.id, ...habit })
+    },
 
     // updating habits
     

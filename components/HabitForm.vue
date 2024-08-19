@@ -17,12 +17,14 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useHabitStore } from '~/stores/habits'
 
 const name = ref('')
+const habitStore = useHabitStore()
 
 const handleSubmit = async () => {
   if (name.value.trim()) {
-    console.log(name.value)
+    await habitStore.addHabit(name.value)
     name.value = ''
   }
 }
