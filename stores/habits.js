@@ -89,7 +89,9 @@ export const useHabitStore = defineStore('habitStore', {
         if (diff > 1) {
           break
         }
+        
         streak += 1
+        currentDate = new Date(date)
       }
       
       return streak
